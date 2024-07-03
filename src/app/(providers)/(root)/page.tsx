@@ -1,20 +1,11 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import PokemonList from "@/components/PokemonList";
 
 function RootPage() {
-  const { data: pokemons, isPending } = useQuery({
-    queryKey: ["pokemons"],
-    queryFn: async () => {
-      const response = await axios.get("http://localhost:3000/api/pokemons");
-      const data = await response.data;
-      return data;
-    },
-  });
-
-  if (isPending) return <p>Loading...</p>;
-  return <div>page</div>;
+  return (
+    <div className="flex items-center justify-center">
+      <PokemonList />
+    </div>
+  );
 }
 
 export default RootPage;
