@@ -3,15 +3,39 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Chip from "../Chip";
 
+const validIntents = [
+  "default",
+  "grass",
+  "poison",
+  "fire",
+  "water",
+  "bug",
+  "flying",
+  "normal",
+  "electric",
+  "ground",
+  "fairy",
+  "fighting",
+  "psychic",
+  "rock",
+  "ice",
+  "dragon",
+  "steel",
+  "ghost",
+] as const;
+
+type ValidIntent = (typeof validIntents)[number];
+
+// 유효한 intent 값인지 검사하는 함수
+function isValidIntent(intent: any): intent is ValidIntent {
+  return validIntents.includes(intent);
+}
+
 interface PokemonProps {
   pokemon: Pokemon;
 }
 
 function PokemonCard({ pokemon }: PokemonProps) {
-  // if (pokemon.id === 1) {
-  //   console.log(pokemon);
-  // }
-
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -35,12 +59,10 @@ function PokemonCard({ pokemon }: PokemonProps) {
         <h6 className="text-lg font-semibold py-1">{pokemon.korean_name}</h6>
         <div className="flex flex-row">
           {pokemon.types.map((type, index) => {
+            const intent = type.type.name;
+            const validIntent = isValidIntent(intent) ? intent : "default";
             return (
-              <Chip
-                key={index}
-                intent={type.type.name}
-                label={type.type.name}
-              />
+              <Chip key={index} intent={validIntent} label={type.type.name} />
             );
           })}
         </div>

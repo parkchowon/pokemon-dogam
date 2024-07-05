@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Pokemon",
   description: "this site present about pokemon",
+  icons: {
+    icon: "/pokemon_logo.svg",
+  },
 };
 
 export default function RootLayout({

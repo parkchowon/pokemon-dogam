@@ -1,26 +1,61 @@
 "use client";
+import { fetchPokemons } from "@/apis/poketmon";
 import { Pokemon } from "@/schemas/pokemon.schema";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
 import PokemonCard from "../PokemonCard";
 
 function PokemonList() {
-  const { data: pokemons, isPending } = useQuery({
-    queryKey: ["pokemons"],
-    queryFn: async () => {
-      const response = await axios.get("http://localhost:3000/api/pokemons");
-      const data = await response.data;
-      return data;
-    },
+  const [page, setPage] = useState<number>(1);
+  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+
+  const {
+    data: pokemons,
+    isPending,
+    refetch,
+  } = useQuery({
+    queryKey: ["pokemons", page],
+    queryFn: () => fetchPokemons(page.toString()),
   });
 
-  if (isPending) return <p>Loading...</p>;
+  // 스크롤 이벤트 리스너 등록
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollEvent);
+    return () => window.removeEventListener("scroll", handleScrollEvent);
+  });
+
+  const handleScrollEvent = () => {
+    if (isPending) return false;
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      console.log("scroll down");
+      setPage((prevPage) => prevPage + 1);
+      refetch();
+    }
+  };
+
+  useEffect(() => {
+    if (pokemons) return setPokemonList([...pokemonList, ...pokemons]);
+  }, [pokemons]);
+
   return (
-    <ul className="grid gap-x-4 gap-y-8 grid-cols-5 w-fit place-content-center mt-12">
-      {pokemons.map((pokemon: Pokemon) => {
-        return <PokemonCard key={pokemon.id} pokemon={pokemon} />;
-      })}
-    </ul>
+    <div className="flex flex-col">
+      <ul className="grid gap-x-4 gap-y-8 mobile:grid-cols-2 md:grid-cols-5 w-fit place-content-center mt-12 mb-12">
+        {pokemonList.map((pokemon: Pokemon) => {
+          return <PokemonCard key={pokemon.id} pokemon={pokemon} />;
+        })}
+      </ul>
+      {isPending ? (
+        <div className="flex items-center justify-center w-full h-[200px]">
+          <BeatLoader color="red" />
+        </div>
+      ) : (
+        false
+      )}
+    </div>
   );
 }
 

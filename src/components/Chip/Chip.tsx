@@ -1,11 +1,11 @@
 import { VariantProps, cva } from "class-variance-authority";
 
 const chipVariants = cva(
-  "flex items-center w-fit h-[20px] px-3 [&+&]:mx-2 text-[13px] rounded-full",
+  "flex items-center justify-center w-fit h-fit px-3 [&+&]:mx-2 text-[13px] rounded-full",
   {
     variants: {
       intent: {
-        default: "text-black",
+        default: "border border-black text-black font-semibold",
         grass: "bg-green-500 text-white ",
         poison: "bg-purple-700 text-white ",
         fire: "bg-red-500 text-white",
@@ -31,7 +31,7 @@ const chipVariants = cva(
   }
 );
 
-type ChipVariantsType = VariantProps<typeof chipVariants>;
+export type ChipVariantsType = VariantProps<typeof chipVariants>;
 
 type ChipProps = {
   label: string;
