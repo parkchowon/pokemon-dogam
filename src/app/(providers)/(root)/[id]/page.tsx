@@ -37,7 +37,7 @@ async function DetailPage({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col items-center pt-7 w-full h-fit min-h-dvh bg-gray-100">
       {/**포켓몬 정보 div */}
-      <div className="flex md:flex-row mobile:flex-col mobile:w-[200px] md:w-[500px] lg:w-[700px] h-fit justify-center items-center bg-white mobile:pb-5">
+      <div className="flex md:flex-row mobile:flex-col mobile:w-[250px] md:w-[500px] lg:w-[700px] h-fit justify-center items-center bg-white mobile:pb-5">
         <Image
           src={pokemonData.sprites.front_default}
           width={300}
@@ -86,7 +86,7 @@ async function DetailPage({ params }: { params: { id: string } }) {
         </div>
       </div>
       {/**스킬 목록 div */}
-      <div className="flex flex-col bg-white mobile:w-[200px] md:w-[500px] lg:w-[700px] h-fit my-7 rounded-md pb-5 px-7">
+      <div className="flex flex-col bg-white mobile:w-[250px] md:w-[500px] lg:w-[700px] h-fit my-7 rounded-md pb-5 px-7">
         <p className="text-lg font-semibold text-center py-6">스킬 목록</p>
         <ul className="text-center">
           {pokemonData.moves.map((move, index) => {
