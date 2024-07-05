@@ -33,6 +33,8 @@ function isValidIntent(intent: any): intent is ValidIntent {
 
 async function DetailPage({ params }: { params: { id: string } }) {
   const pokemonData: Pokemon = await fetchPokemon(params.id);
+  const weight = Number(`${pokemonData.weight}00`) / 1000;
+  const height = Number(`${pokemonData.height}0`) / 100;
 
   return (
     <div className="flex flex-col items-center pt-7 w-full h-fit min-h-dvh bg-gray-100">
@@ -76,11 +78,11 @@ async function DetailPage({ params }: { params: { id: string } }) {
           <div className="flex mt-3">
             <div className="mr-3">
               <p className="text-sm text-gray-400">키</p>
-              <p>{pokemonData.height}0cm</p>
+              <p>{height}M</p>
             </div>
             <div className="ml-2">
               <p className="text-sm text-gray-400">몸무게</p>
-              <p>{pokemonData.weight}00g</p>
+              <p>{weight}kg</p>
             </div>
           </div>
         </div>
